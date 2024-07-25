@@ -11,7 +11,7 @@
         </nuxt-link>
       </div>
 
-      <div class="ocl-lg-6">
+      <div class="col-lg-6">
         <nuxt-link to="/buku">
           <div class="card bg-buku rounded-5">
             <div class="card-body">
