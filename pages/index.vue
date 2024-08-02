@@ -1,42 +1,78 @@
 <template>
-  <div class="container-fluid">
-    <div class="row my-5">
-      <div class="col-lg-6">
-        <nuxt-link to="/pengunjung/tambah">
-          <div class="card bg-pengunjung rounded-5">
-            <div class="card-body">
-              <h2>pengunjung</h2>
-            </div>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-12">
+          <h2 class="text-center my-4">RIWAYAT KUNJUNGAN</h2>
+          <div class="my-3">
+            <form @submit.prevent="getPengunjung">
+              <input v-model="keyword" type="serch" class="form-conrol form-control-lg rounded-5" placeholder="Mencari..." />
+            </form>
           </div>
-        </nuxt-link>
-      </div>
-
-      <div class="col-lg-6">
-        <nuxt-link to="/buku/">
-          <div class="card bg-buku rounded-5">
-            <div class="card-body">
-              <h2>Cari Buku</h2>
-            </div>
-          </div>
-        </nuxt-link>
+          <div class="my-3">Menampilkan {{ visitors.length }} Dari {{ Semua }}</div>
+          <table class="table">
+            <thead>
+              <tr>
+                <td>No</td>
+                <td>tanggal</td>
+                <td>nama</td>
+                <td>kelas</td>
+                <td>keanggotaan</td>
+                <td>Jurusan</td>
+                <td>keperluan</td>
+                <td>tingkat</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(visitor, i) in visitors" :key="i">
+                <td>{{ i + 1 }}.</td>
+                <td>{{ visitor.tanggal }}, {{ visitor.waktu }}</td>
+                <td>{{ visitor.nama }}</td>
+                <td>{{ visitor.kelas }}</td>
+                <td>{{ visitor.keanggotaan.nama }}</td>
+                <td>{{ visitor.keperluan.nama }}</td>
+                <td>{{ visitor.jurusan}}</td>
+                <td>{{ visitor.tingkat }}</td>
+              </tr>
+            </tbody>
+          </table>      
+          <NuxtLink to="/">
+            <button type="submit" class="btn btn-dark btn-lg rounded-5 px-5">Menu</button>
+          </NuxtLink>
+        </div>
       </div>
     </div>
-  </div>
-</template>
-
-<style scoped>
-.card {
-  height: 250px;
-  box-shadow: 1px 1px 10px #2C7C5F;
-}
-.card.bg-pengunjung {
-  background-image: url('../assets/img/bg-home-pengunjung.jpg');
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
-}
-.card.bg-buku {
-  background: url('../assets/img/bg-home-cari-buku.jpg') no-repeat center center;
-  background-size: cover;
-}
-</style>
+  </template>
+  
+  <script setup>
+  
+  const supabase = useSupabaseClient();
+  
+  const Semua = ref(0);
+  
+  const keyword = ref("");
+  
+  const visitors = ref([]);
+  
+  const getPengunjung = async () => {
+    const { data, error } = await supabase
+      .from("pengunjung")
+      .select(`*, keanggotaan(nama), keperluan(nama)`)
+      .order("id", { ascending: false })
+      .ilike("nama", `%${keyword.value}%`);
+    if (data) visitors.value = data;
+  };
+  
+  const getJumlah = async () => {
+    const { data, error } = await supabase
+      .from("jumlahpengunjung")
+      .select()
+      .single()
+    if (data) Semua.value = data.jumlahpengunjung
+  };
+  
+  onMounted(() => {
+    getPengunjung();
+    getJumlah();
+  });
+  
+  </script>
