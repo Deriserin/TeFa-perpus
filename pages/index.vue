@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid">
-    <div class="row- my-5">
+    <div class="row my-5">
       <div class="col-lg-6">
         <nuxt-link to="/pengunjung/tambah">
           <div class="card bg-pengunjung rounded-5">
@@ -12,7 +12,7 @@
       </div>
 
       <div class="col-lg-6">
-        <nuxt-link to="/buku">
+        <nuxt-link to="/buku/">
           <div class="card bg-buku rounded-5">
             <div class="card-body">
               <h2>Cari Buku</h2>

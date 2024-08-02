@@ -1,32 +1,31 @@
 <template>
-  <div class="content">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-lg-12">
-          <nuxt-link to="/pengunjung">
-            <button type="button" class="btn btn-outline-dark mt-4 btn-lg">KEMBALI</button>
-          </nuxt-link>
-            <h2 class="text-center my-4 fw-bold">RAK BUKU</h2>
-            <form @submit.prevent="getBooks" class="col mb-3">
-              <div class="input-group flex-nowrap rounded">
-                <input v-model="keyword" type="search" class="form-control from-control-lg rounded-5" placeholder="Cari Judul..." aria-label="Search" @input="getbooks" />
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-12">
+        <h2 class="text-center my-4 fw-bold">BUKU</h2>
+        <div class="my-3">
+          <form @submit.prevent="getBooks">
+            <input type="search" class="form-control from-control rounded-5" placeholder="Mau baca apa hari ini?">
+          </form>
+        </div>
+        <div class="my-3 text-muted">menampilkan 45 dari 45</div>
+        <div class="row justify-content-evenly">
+          <div v-for="(book, i) in books" :key="i" class="col-sm-3 m-1">
+            <nuxt-link :to="`/buku/${book.id}`">
+              <div class="card-style">
+                <img :src="book.cover" class="cover" alt="cover">
+                <div class="card-body">
+                  <p class="card-text">{{ book.judul }}</p>
+                </div>
               </div>
-            </form>
-            <div class="my-3">Menampilkan {{ books.length }} buku dari {{ jmlbuku }}</div>
+            </nuxt-link>
           </div>
         </div>
-          <div class="row shadow-lg">
-              <div v-for="(book,i) in books" :key="i" class="col">
-                  <div class="card mb-3 col-lg-2 col-2">
-                    <nuxt-link :to="`/buku/${book.id}`">
-                      <div class="card-body">
-                        <img :src="book.cover" class="cover" alt="cover">
-                      </div>
-                    </nuxt-link>
-                  </div>
-              </div>
-          </div>
+      </div>
     </div>
+    <NuxtLink to="/">
+    <button type="button" class="btn btn-primary">kembali</button>
+  </NuxtLink>
   </div>
 </template>
 
@@ -58,3 +57,15 @@ onMounted(() =>{
 
 })
 </script>
+
+<style scoped>
+.cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 0 30;
+}
+.btn {
+  background-color: #2C7C5F;
+}
+</style>

@@ -1,6 +1,15 @@
 <template>
   <div class="container-fluid">
-      <Header /> <!--custom component-->
-      <slot /> <!--page akan mengisi pada bagian ini-->
+      <Header />
+      <slot /> 
 </div>
 </template>
+
+<style scoped>
+head {
+  font-family: "inknut Antiqua";
+}
+body {
+  font-family: "inknutAntiqua";
+}
+</style>
